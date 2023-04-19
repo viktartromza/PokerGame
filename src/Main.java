@@ -8,31 +8,24 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-        String[] suits = {"h", "d", "c", "s"};
-        ArrayList<String> deck = new ArrayList<>();
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 4; j++) {
-                deck.add(ranks[i].concat(suits[j]));
-            }
-        }
-        System.out.println(deck);
-        Stream.of(deck).forEach(System.out::println);
+        Deck deck = new Deck();
+        ArrayList<String> thisDeck = deck.get();
+
+       Stream.of(thisDeck).forEach(System.out::println);
         Random random = new Random();
         String[] playerHand = new String[2];
         String[] ourHand = new String[2];
         for (int i = 0; i < 2; i++) {
-            playerHand[i] = deck.get(random.nextInt(53 - i*2));
-            deck.remove(playerHand[i]);
-            ourHand[i] = deck.get(random.nextInt(53 - i*2 - 1));
-            deck.remove(ourHand[i]);
+            playerHand[i] = thisDeck.get(random.nextInt(52 - i*2));
+            thisDeck.remove(playerHand[i]);
+            ourHand[i] = thisDeck.get(random.nextInt(52 - i*2 - 1));
+            thisDeck.remove(ourHand[i]);
         }
+       // String [] test = {"Kh","Ah"};
         System.out.println(Arrays.toString(playerHand));
-        System.out.println(Arrays.toString(ourHand));
-        System.out.println(deck);
-        int [] arr =null;
-        while ((arr = Chanses.genCombinations(arr,3,48)) != null){
-            System.out.println(Arrays.toString(arr));
-        }
+        System.out.println(Arrays.toString(ourHand)+" power: "+Chanses.compCombinations(ourHand,null));
+        //System.out.println(Arrays.toString(test)+" power: "+Chanses.compCombinations(test,null));
+        System.out.println(thisDeck);
+        Chanses.compCombinations(ourHand,null);
     }
 }

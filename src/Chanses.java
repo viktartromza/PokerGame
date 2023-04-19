@@ -1,29 +1,51 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.DoubleStream;
 
 public class Chanses {
 
-    static int[] genCombinations(int[] arr, int k, int n) {
+
+    static int[] genCombinations(int[] arr, int k, int n) {//3 из 5, k=3, n=5
         if (arr == null) {
             arr = new int[k];
             for (int i = 0; i < k; i++)
                 arr[i] = i + 1;
             return arr;
         }
-        for (int i = k - 1; i >= 0; i--)
+        for (int i = k - 1; i >= 0; i--) {
             if (arr[i] < n - k + i + 1) {
                 arr[i]++;
-                for (int j = i; j < k - 1; j++)
+                for (int j = i; j < k - 1; j++) {
                     arr[j + 1] = arr[j] + 1;
+                }
                 return arr;
             }
+        }
         return null;
     }
-/*
-    static String[] compCombinations(ArrayList<String> deck, String[] hand) {
+
+    static double compCombinations(String[] hand, String[] board) {
+        Deck deck = new Deck();
+        ArrayList<String> thisDeck = deck.get();
+        thisDeck.remove(hand[0]);
+        thisDeck.remove(hand[1]);
+        String[] deckArr = new String[thisDeck.size()];
+        thisDeck.toArray(deckArr);
+        String combination;
+        int[] arr = null;
+        ArrayList<Double> handValue = new ArrayList<>();
+        while ((arr = genCombinations(arr, 3, thisDeck.size())) != null) {
+            combination = deckArr[(arr[0] - 1)]+deckArr[(arr[1] - 1)]+deckArr[(arr[2] - 1)]+hand[0]+hand[1];
+           //System.out.println(combination +" result: " + FiveCardDraw.process(combination));
+           handValue.add(FiveCardDraw.process(combination));
+        }
+        return handValue.stream().mapToDouble(x->x).average().getAsDouble();
+
+          /*
         String[] deckCards = (String[]) deck.toArray();
         int z = 0;
-        for (int i = 0; i < deckCards.length(); i = i + 2) {
+        for (int i = 0; i < deckCards.length; i = i + 2) {
             String s1 = board.substring(i, i + 2);
             boardCards[z++] = s1;
         }
@@ -50,4 +72,6 @@ public class Chanses {
         }
         return supercombination;
     }*/
+    }
 }
+

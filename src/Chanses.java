@@ -28,20 +28,33 @@ public class Chanses {
     static double compCombinations(String[] hand, String[] board) {
         Deck deck = new Deck();
         ArrayList<String> thisDeck = deck.get();
-        thisDeck.remove(hand[0]);
-        thisDeck.remove(hand[1]);
-        String[] deckArr = new String[thisDeck.size()];
-        thisDeck.toArray(deckArr);
-        String combination;
-        int[] arr = null;
-        ArrayList<Double> handValue = new ArrayList<>();
-        while ((arr = genCombinations(arr, 3, thisDeck.size())) != null) {
-            combination = deckArr[(arr[0] - 1)]+deckArr[(arr[1] - 1)]+deckArr[(arr[2] - 1)]+hand[0]+hand[1];
-           //System.out.println(combination +" result: " + FiveCardDraw.process(combination));
-           handValue.add(FiveCardDraw.process(combination));
+        if (hand == null) {
+            String[] deckArr = new String[thisDeck.size()];
+            thisDeck.toArray(deckArr);
+            String combination;
+            int[] arr = null;
+            ArrayList<Double> handValue = new ArrayList<>();
+            while ((arr = genCombinations(arr, 3, thisDeck.size())) != null) {
+                combination = deckArr[(arr[0] - 1)] + deckArr[(arr[1] - 1)] + deckArr[(arr[2] - 1)] + hand[0] + hand[1];
+                //System.out.println(combination +" result: " + FiveCardDraw.process(combination));
+                handValue.add(FiveCardDraw.process(combination));
+            }
+            return handValue.stream().mapToDouble(x -> x).average().getAsDouble();
+        } else {
+            thisDeck.remove(hand[0]);
+            thisDeck.remove(hand[1]);
+            String[] deckArr = new String[thisDeck.size()];
+            thisDeck.toArray(deckArr);
+            String combination;
+            int[] arr = null;
+            ArrayList<Double> handValue = new ArrayList<>();
+            while ((arr = genCombinations(arr, 3, thisDeck.size())) != null) {
+                combination = deckArr[(arr[0] - 1)] + deckArr[(arr[1] - 1)] + deckArr[(arr[2] - 1)] + hand[0] + hand[1];
+                //System.out.println(combination +" result: " + FiveCardDraw.process(combination));
+                handValue.add(FiveCardDraw.process(combination));
+            }
+            return handValue.stream().mapToDouble(x -> x).average().getAsDouble();
         }
-        return handValue.stream().mapToDouble(x->x).average().getAsDouble();
-
           /*
         String[] deckCards = (String[]) deck.toArray();
         int z = 0;
@@ -73,5 +86,24 @@ public class Chanses {
         return supercombination;
     }*/
     }
+
+    static double compCombinationsPlayer(String[] hand, String[] board) {
+        Deck deck = new Deck();
+        ArrayList<String> thisDeck = deck.get();
+        thisDeck.remove(hand[0]);
+        thisDeck.remove(hand[1]);
+        String[] deckArr = new String[thisDeck.size()];
+        thisDeck.toArray(deckArr);
+        String combination;
+        int[] arr = null;
+        ArrayList<Double> handValue = new ArrayList<>();
+        while ((arr = genCombinations(arr, 5, thisDeck.size())) != null) {
+            combination = deckArr[(arr[0] - 1)] + deckArr[(arr[1] - 1)] + deckArr[(arr[2] - 1)] + deckArr[(arr[3] - 1)] + deckArr[(arr[4] - 1)];
+            //System.out.println(combination +" result: " + FiveCardDraw.process(combination));
+            handValue.add(FiveCardDraw.process(combination));
+        }
+        return handValue.stream().mapToDouble(x -> x).average().getAsDouble();
+    }
 }
+
 
